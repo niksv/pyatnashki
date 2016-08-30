@@ -12,7 +12,7 @@ public class Solver {
     Store store;
 
 //    Map<Integer, Integer> map;
-    Path map = new Path();
+//    Path map = new Path();
 //    Set<Integer> used = Collections.synchronizedSet(new HashSet<Integer>());
     Used used = new Used();
 //    Collections.
@@ -139,7 +139,7 @@ public class Solver {
                                             time = System.currentTimeMillis();
 //                                            System.out.println(store.queue.size());
                                         }
-                                        map.put(hash, field.getLong(), k);
+//                                        map.put(hash, field.getLong(), k);
 
                                         if (Field.isFinal(hash)) {
                                             printWay(new Field(hash));
@@ -165,17 +165,17 @@ public class Solver {
 
     public void printWay(Field field) {
         System.out.println("end");
-        List<String> way = new ArrayList<String>();
-        long hash = field.getLong();
-
-        while (map.states.containsKey(hash)) {
-            way.add(ways[map.getWay(hash)]);
-            hash = map.getParent(hash);
-        }
-
-        Collections.reverse(way);
-        for (String s : way) {
-            System.out.println(s);
-        }
+//        List<String> way = new ArrayList<String>();
+//        long hash = field.getLong();
+//
+//        while (map.states.containsKey(hash)) {
+//            way.add(ways[map.getWay(hash)]);
+//            hash = map.getParent(hash);
+//        }
+//
+//        Collections.reverse(way);
+//        for (String s : way) {
+//            System.out.println(s);
+//        }
     }
 }

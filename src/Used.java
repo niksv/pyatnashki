@@ -8,7 +8,7 @@ public class Used {
 //        return set.contains(hash);
 //    }
 
-    synchronized public boolean add(long hash) {
+    synchronized public boolean add(Long hash) {
         return set.add(hash);
     }
 

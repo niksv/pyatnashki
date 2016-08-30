@@ -33,7 +33,7 @@ public class Main {
 //                {0,1},
 //                {2,3},
 //        };
-        Thread.sleep(10000);
+        Thread.sleep(1000);
         Solver solver = new Solver(field);
         System.out.println("Brand new");
         solver.solveThreads(Integer.parseInt("4"));
