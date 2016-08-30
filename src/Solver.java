@@ -22,7 +22,7 @@ public class Solver {
 //        this.map = Collections.synchronizedMap(new HashMap<Integer, Integer>());
 //        this.map.put(field.hashCode(), null);
 //        map.put(0, field.hashCode(), -1);
-        used.add(field.hashCode());
+        used.add(field.getLong());
     }
 
     public void solveThreads(int threadCount) throws CloneNotSupportedException {
@@ -93,10 +93,11 @@ public class Solver {
         @Override
         public void run() {
             while(!end) {
-                Field field = store.get();
-                if (field == null) {
+                Long fieldAsLong = store.get();
+                if (fieldAsLong == null) {
                     return;
                 }
+                Field field = new Field(fieldAsLong);
 //            if (field.isFinal()) {
 //                printWay(field);
 //                return;
@@ -105,7 +106,7 @@ public class Solver {
                 for (int i = 0; i < field.field.length && !found; i++) {
                     for (int j = 0; j < field.field.length; j++) {
                         if (field.field[i][j] == 0) {
-                            List<Field> fields = new ArrayList<>();
+                            List<Long> fields = new ArrayList<>();
                             for (int k = 0; k < 4; k++) {
                                 int ni = i + xWays[k];
                                 int nj = j + yWays[k];
@@ -122,20 +123,14 @@ public class Solver {
                                     field.field[i][j] = field.field[ni][nj];
                                     field.field[ni][nj] = 0;
 
-                                    int hash = field.hashCode();
+                                    long hash = field.getLong();
 
                                     field.field[ni][nj] = field.field[i][j];
                                     field.field[i][j] = 0;
 
                                     if (used.add(hash)) {
-                                        Field nField = null;
-                                        try {
-                                            nField = field.clone();
-                                        } catch (CloneNotSupportedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        nField.field[i][j] = field.field[ni][nj];
-                                        nField.field[ni][nj] = 0;
+//                                        Field nField = new Field(fieldAsLong);
+
 
                                         iteration++;
                                         if (iteration % 100000 == 0) {
@@ -144,14 +139,14 @@ public class Solver {
                                             time = System.currentTimeMillis();
 //                                            System.out.println(store.queue.size());
                                         }
-                                        map.put(hash, field.hashCode(), k);
+                                        map.put(hash, field.getLong(), k);
 
-                                        if (nField.isFinal()) {
-                                            printWay(nField);
+                                        if (Field.isFinal(hash)) {
+                                            printWay(new Field(hash));
                                             end = true;
                                             return;
                                         }
-                                        fields.add(nField);
+                                        fields.add(hash);
 //                                        store.put(nField);
                                     }
 
@@ -171,7 +166,7 @@ public class Solver {
     public void printWay(Field field) {
         System.out.println("end");
         List<String> way = new ArrayList<String>();
-        int hash = field.hashCode();
+        long hash = field.getLong();
 
         while (map.states.containsKey(hash)) {
             way.add(ways[map.getWay(hash)]);

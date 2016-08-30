@@ -23,7 +23,8 @@ public class Main {
 //                {5,6,7,8},
 //                {9,10,11,12},
 //                {13,14,15,0}};
-        System.out.println(field.isFinal());
+//        System.out.println(Field.isFinal(field.getLong()));
+//        System.out.println(field.isFinal());
 //        Field field = new Field(3);
 //        field.field = new short[][]{
 //                {5,4,2},
@@ -32,10 +33,10 @@ public class Main {
 //                {0,1},
 //                {2,3},
 //        };
-//        Thread.sleep(10000);
+        Thread.sleep(10000);
         Solver solver = new Solver(field);
-        System.out.println("new");
-        solver.solveThreads(Integer.parseInt(args[0]));
+        System.out.println("Brand new");
+        solver.solveThreads(Integer.parseInt("4"));
 
     }
 }

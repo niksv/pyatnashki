@@ -1,3 +1,5 @@
+import sun.rmi.runtime.Log;
+
 import java.util.Arrays;
 
 public class Field implements Cloneable {
@@ -12,12 +14,41 @@ public class Field implements Cloneable {
         }
     }
 
-    public boolean isFinal() {
-        for (int i = 0; i < field.length * field.length - 1; i++) {
-            if (this.field[i / field.length][i % field.length] != (i + 1))
-                return false;
+    public Field(long l) {
+        field = new short[4][];
+        for (int i = 0; i < 4; i++) {
+            field[i] = new short[4];
+            for (int j = 0; j < 4; j++) {
+                long shift = 4 * (i * field.length + j);
+                long temp = l >> shift;
+                long val = temp & (long)(15);
+                field[i][j] = (short) val;
+            }
         }
-        return field[field.length - 1][field.length - 1] == 0;
+    }
+
+    public static boolean isFinal(long l) {
+        return l == Long.valueOf("1147797409030816545");
+    }
+
+//    public boolean isFinal() {
+//        for (int i = 0; i < field.length * field.length - 1; i++) {
+//            if (this.field[i / field.length][i % field.length] != (i + 1))
+//                return false;
+//        }
+//        return field[field.length - 1][field.length - 1] == 0;
+//    }
+
+    public long getLong(){
+        long res = 0;
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field.length; j++) {
+                long val = field[i][j];
+                val = val << (4 * (i*field.length + j));
+                res |= val;
+            }
+        }
+        return res;
     }
 
     @Override
