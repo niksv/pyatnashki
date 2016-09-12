@@ -38,56 +38,6 @@ public class Solver {
 //        }
     }
 
-//    public void solve() throws CloneNotSupportedException {
-//        while(!store.queue.isEmpty() && !end) {
-//            Field field = store.get();
-////            if (field.isFinal()) {
-////                printWay(field);
-////                return;
-////            }
-//            boolean found = false;
-//            for (int i = 0; i < field.size && !found; i++) {
-//                for (int j = 0; j < field.size; j++) {
-//                    if (field.field[i][j] == 0) {
-//                        for (int k = 0; k < 4; k++) {
-//                            int ni = i + xWays[k];
-//                            int nj = j + yWays[k];
-//
-//                            if (ni >= 0 && ni < field.size && nj >= 0 && nj < field.size) {
-//                                Field nField = field.clone();
-//                                nField.field[i][j] = field.field[ni][nj];
-//                                nField.field[ni][nj] = 0;
-//
-////                                if (!map.containsKey(nField)) {
-////                                    map.put(nField, field);
-//                                int hash = nField.hashCode();
-//                                if (!used.contains(hash)) {
-//                                    used.add(hash);
-//                                    iteration++;
-//                                    if (iteration % 100000 == 0){
-//                                        System.out.println(iteration);
-//                                    }
-//
-//                                    if (nField.isFinal()) {
-//                                        printWay(nField);
-//                                        end = true;
-//                                        return;
-//                                    }
-//                                    store.put(nField);
-//                                }
-//
-//                            }
-//                        }
-//                        found = true;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//    }
-
     private class ThreadSolve implements Runnable {
         int child = 0;
         Long startField;
@@ -105,49 +55,35 @@ public class Solver {
         public void run() {
             while (!end && !queue.isEmpty()) {
                 Long fieldAsLong = queue.poll();
-                int pos = LongField.getZero(fieldAsLong);
-                int i = pos / 4;
-                int j = pos % 4;
+                int zeroPos = LongField.getZero(fieldAsLong);
+                int i = zeroPos / 4;
+                int j = zeroPos % 4;
 
                 for (int k = 0; k < 4; k++) {
                     int ni = i + xWays[k];
                     int nj = j + yWays[k];
 
                     if (ni >= 0 && ni < 4 && nj >= 0 && nj < 4) {
-                        field.field[i][j] = field.field[ni][nj];
-                        field.field[ni][nj] = 0;
-
-                        Long hash = field.getLong();
-
-                        field.field[ni][nj] = field.field[i][j];
-                        field.field[i][j] = 0;
-
-                        if (used.add(hash)) {
-//                                        Field nField = new Field(fieldAsLong);
-
-
+                        long next = LongField.move(fieldAsLong, zeroPos, ni * 4 + nj);
+                        if (used.add(next)) {
                             iteration++;
                             if (iteration % 100000 == 0) {
-
                                 System.out.println(Thread.currentThread() + " " + iteration + " " + queue.size() + " " + used.set.size() + "  " + (System.currentTimeMillis() - time));
                                 time = System.currentTimeMillis();
-//                                            System.out.println(store.queue.size());
                             }
 //                                        map.put(hash, field.getLong(), k);
-
-
-                            if (Field.isFinal(hash)) {
-                                printWay(new Field(hash));
+                            if (LongField.isFinal(next)) {
+                                printWay(next);
                                 end = true;
                                 return;
                             }
 
                             if (iteration % 10000 == 0 && child > 0) {
-                                Thread t = new Thread(new ThreadSolve(child - 1, hash));
+                                Thread t = new Thread(new ThreadSolve(child - 1, next));
                                 t.start();
                                 child -= 1;
                             } else {
-                                queue.add(hash);
+                                queue.add(next);
                             }
 //                                        store.put(nField);
                         }
@@ -155,13 +91,12 @@ public class Solver {
                     }
                 }
 //                            store.putAll(fields);
-                break;
             }
         }
 
     }
 
-    public void printWay(Field field) {
+    public void printWay(long field) {
         System.out.println("end");
 //        List<String> way = new ArrayList<String>();
 //        long hash = field.getLong();

@@ -2,9 +2,9 @@ import java.util.Arrays;
 
 class LongField {
 
-    private static final Long FIN_LONG = Long.valueOf("1147797409030816545");
+    private static final long FIN_LONG = Long.valueOf("1147797409030816545");
 
-    public static boolean isFinal(long l) {
+    static boolean isFinal(long l) {
         return l == FIN_LONG;
     }
 
@@ -19,10 +19,11 @@ class LongField {
             }
             res += "\n";
         }
+        res += "\n";
         System.out.println(res);
     }
 
-    public static long getLong(short [][] field){
+    static long getLong(short[][] field){
         long res = 0;
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
@@ -34,7 +35,7 @@ class LongField {
         return res;
     }
 
-    public static int getZero(long l) {
+    static int getZero(long l) {
         long mask = 15;
         for (int i = 0; i < 16; i++) {
             if ((l & mask) == 0) {
@@ -43,5 +44,12 @@ class LongField {
             mask = mask << 4;
         }
         return -1;
+    }
+
+    static long move(long field, int zero, int pos) {
+        long value = (field >> (pos * 4)) & (long)15;
+        field |= value << (zero * 4);
+        field &= ~(((long)15) << (pos * 4));
+        return field;
     }
 }

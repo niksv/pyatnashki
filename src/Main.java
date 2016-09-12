@@ -34,7 +34,7 @@ public class Main {
 //                {2,3},
 //        };
 //        Thread.sleep(1000);
-        Solver solver = new Solver(field);
+        Solver solver = new Solver(LongField.getLong(field.field));
         solver.solveThreads(Integer.parseInt("1"), field.getLong());
 
     }
