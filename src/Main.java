@@ -33,10 +33,10 @@ public class Main {
 //                {0,1},
 //                {2,3},
 //        };
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         Solver solver = new Solver(field);
-        System.out.println("Brand new");
-        solver.solveThreads(Integer.parseInt("4"));
+        System.out.println("Brand new2");
+        solver.solveThreads(Integer.parseInt(args[0]), field.getLong());
 
     }
 }

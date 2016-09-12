@@ -9,7 +9,7 @@ import java.util.concurrent.SynchronousQueue;
 public class Store {
     Queue<Long> queue;
 
-    public Store(Field field) {
+    private Store(Field field) {
         this.queue = new LinkedList<>();
         this.queue.add(field.getLong());
     }
