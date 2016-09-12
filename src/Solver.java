@@ -41,13 +41,13 @@ public class Solver {
     private class ThreadSolve implements Runnable {
         int child = 0;
         Long startField;
-        Queue<Long> queue;
+        PriorityQueue<Long> queue;
 
 
         ThreadSolve(int child, Long startField) {
             this.child = child;
             this.startField = startField;
-            queue = new LinkedList<>();
+            queue = new PriorityQueue<>();
             queue.add(startField);
         }
 
